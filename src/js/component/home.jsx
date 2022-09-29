@@ -1,26 +1,29 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import Example from './example';
 import Clock from "./clock";
 import Counter from "./counter";
 import MouseTracker from "./mousetracker";
-
-
-const themes = {
-	light: {
-	  foreground: "#000000",
-	  background: "#eeeeee"
-	},
-	dark: {
-	  foreground: "#ffffff",
-	  background: "#222222",
-	}
-  };
-
-const ThemeContext = React.createContext(themes.light);
+import { ThemeContext, themes } from "./theme-context";
+import ToggleButton from "./toggle-button";
 
 const Home = () => {
+
+	const handleTheme = () => {
+		setState(state => ({
+			theme:
+			  state.theme === themes.dark ? themes.light : themes.dark
+		}));		
+	}
+
+	const [state, setState] = useState(
+		{
+			theme: themes.light,
+			toggleTheme: handleTheme
+		}
+	);
+
 	return (
-		<ThemeContext.Provider value={themes.dark}>
+		<ThemeContext.Provider value={state}>
 			<div className="container">
 			<div className="row">
 				<div className="col-12 d-flex mt-5 justify-content-center">
@@ -35,8 +38,8 @@ const Home = () => {
 				<div className="col-12 d-flex justify-content-center">
 					<Counter />
 				</div>
-				<div className="col-12">
-					<Toolbar />
+				<div className="col-12 d-flex justify-content-center mt-3">
+					<ToggleButton />
 				</div>
 				<div className="col-12">
 					<MouseTracker />
@@ -46,24 +49,6 @@ const Home = () => {
 		</ThemeContext.Provider>
 		
 	);
-};
-
-
-const Toolbar = () => {
-    return (
-        <div>
-            <ThemedButton />
-        </div>
-    )
-};
-
-const ThemedButton = () => {
-    const theme= useContext(ThemeContext);
-    return (
-        <button className='btn d-block mx-auto mt-2' style={{background: theme.background, color: theme.foreground}}>
-            I'm stylized with context!
-        </button>
-    )
 };
 
 export default Home;
