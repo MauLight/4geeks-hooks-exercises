@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import Example from './example';
 import Clock from "./clock";
 import Counter from "./counter";
+import MouseTracker from "./mousetracker";
 
 
 const themes = {
@@ -36,6 +37,9 @@ const Home = () => {
 				</div>
 				<div className="col-12">
 					<Toolbar />
+				</div>
+				<div className="col-12">
+					<MouseTracker />
 				</div>
 			</div>
 		</div>
